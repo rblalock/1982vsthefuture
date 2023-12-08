@@ -1,6 +1,6 @@
 {
-  "name": "next-template",
-  "version": "0.0.2",
+  "name": "1982-vs-the-future",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
