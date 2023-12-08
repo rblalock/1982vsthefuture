@@ -1,11 +1,22 @@
-import { JetBrains_Mono as FontMono, Inter as FontSans } from "next/font/google"
+import {
+	IBM_Plex_Mono,
+	Permanent_Marker as FontMarker,
+} from "next/font/google"
 
-export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+export const fontSans = IBM_Plex_Mono({
+	subsets: ["latin"],
+	weight: '400',
+	variable: "--font-sans",
 })
 
-export const fontMono = FontMono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const fontMono = IBM_Plex_Mono({
+	subsets: ["latin"],
+	weight: '400',
+	variable: "--font-mono",
+});
+
+export const fontMarker = FontMarker({
+	subsets: ["latin"],
+	weight: '400',
+	variable: "--font-marker",
+});
