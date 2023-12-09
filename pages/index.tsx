@@ -1,8 +1,9 @@
+import { TerminalWrapper } from "@/components/Terminal";
 
 const IndexPage = () => {
 	return (
 		<section className="">
-			Interface goes here!
+			<TerminalWrapper />
 		</section>
 	)
 }
