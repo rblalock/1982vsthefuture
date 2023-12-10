@@ -48,7 +48,7 @@ export const TerminalWrapper = () => {
 		if (sequenceCallback?.command === 'level_one') {
 			const component = (
 				<LevelOneSequence
-					username={username || 'Bob'}
+					username={username || 'Supa'}
 					handleTerminalInput={handleTerminalInput}
 				/>
 			);

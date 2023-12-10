@@ -103,7 +103,16 @@ export const Casette = (props: {
 							<div className="bottom-label">
 								<span id="text3">TAPE</span>
 								<span id="text4">90min</span>
-								<span id="text5">AUDIO CASSETTE TAPE</span>
+								<span id="text5">
+									<a
+										href={`https://www.youtube.com/watch?v=${props.id}`}
+										target="_blank"
+										rel="noreferrer"
+										className="ml-2 font-bold text-blue-100"
+									>
+										youtube link
+									</a>
+								</span>
 							</div>
 							<div className="window">
 								<div className="tape beginning"></div>
