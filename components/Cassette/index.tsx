@@ -9,6 +9,8 @@ export const Casette = (props: {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
 	const onPlayerReady: YouTubeProps['onReady'] = (event) => {
+		let casetteClickSound = new Audio("/switch.mp3");
+		casetteClickSound.play();
 		setPlayer(event.target);
 		setIsPlaying(true);
 	}

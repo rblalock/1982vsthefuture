@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
-import { BootSequence, LoggedInSequence, LoginSequence } from './Sequences';
+import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
+import { LevelOneSequence } from './LevelOneSequence';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
+	const [username, setUsername] = useState();
 
 	const handleTerminalInput = (sequenceCallback: {[key: string]: any}) => {
 		if (sequenceCallback?.command === 'login') {
@@ -20,6 +22,7 @@ export const TerminalWrapper = () => {
 		}
 
 		if (sequenceCallback?.command === 'loginSuccessful') {
+			setUsername(sequenceCallback.username);
 			const component = (
 				<LoggedInSequence
 					handleTerminalInput={handleTerminalInput}
@@ -32,10 +35,29 @@ export const TerminalWrapper = () => {
 		if (sequenceCallback?.command === 'music') {
 			setMusicTrack(sequenceCallback.track);
 		}
+
+		if (sequenceCallback?.command === 'start_game') {
+			const component = (
+				<StartGameSequence
+					handleTerminalInput={handleTerminalInput}
+				/>
+			);
+			setCurrentSequence(component);
+		}
+
+		if (sequenceCallback?.command === 'level_one') {
+			const component = (
+				<LevelOneSequence
+					username={username || 'Bob'}
+					handleTerminalInput={handleTerminalInput}
+				/>
+			);
+			setCurrentSequence(component);
+		}
 	};
 
 	useEffect(() => {
-		const component = <LoggedInSequence username="test" handleTerminalInput={handleTerminalInput} />;
+		const component = <LevelOneSequence username="test" handleTerminalInput={handleTerminalInput} />;
 		setCurrentSequence(component);
 	}, []);
 
