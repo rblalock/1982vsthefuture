@@ -163,6 +163,7 @@
 	opacity: 0;
 	animation: glitch-skew 1s forwards;
 	animation-delay: 0.5s;
+	/* font-size: 1rem !important; */
 }
 
 @keyframes textShadow {

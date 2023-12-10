@@ -45,7 +45,7 @@ export const Casette = (props: {
 				}}
 			/>
 
-			<div className="casette-container" onClick={play}>
+			<div className="casette-container animate-in slide-in-from-bottom" onClick={play}>
 				<div className="side left"></div>
 				<div className="cassette">
 					<div className="tape beginning">

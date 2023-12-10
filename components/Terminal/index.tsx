@@ -14,6 +14,11 @@ export const TerminalWrapper = () => {
 			setCurrentSequence(component);
 		}
 
+		if (sequenceCallback?.command === 'logout') {
+			const component = <BootSequence handleTerminalInput={handleTerminalInput} />;
+			setCurrentSequence(component);
+		}
+
 		if (sequenceCallback?.command === 'loginSuccessful') {
 			const component = (
 				<LoggedInSequence

@@ -174,6 +174,13 @@ export const LoggedInSequence = (props: {
 			setTerminalLineData([]);
 		}
 
+		if (input === 'logout') {
+			props.handleTerminalInput({
+				command: 'logout',
+			});
+			return;
+		}
+
 		if (input === 'help') {
 			setTerminalLineData([
 				...terminalLineData,
@@ -182,7 +189,9 @@ export const LoggedInSequence = (props: {
 						sequence={[
 							500,
 							`
-							Available commands:
+							AVAILABLE COMMANDS:
+							-------------------
+							settings
 							clear
 							help
 							music
@@ -260,6 +269,70 @@ export const LoggedInSequence = (props: {
 							Commands:
 							music [number] - to play a track
 							music stop - to stop the music
+							`
+						]}
+						wrapper="div"
+						cursor={false}
+						speed={{
+							type: 'keyStrokeDelayInMs',
+							value: 10
+						}}
+						className="terminal font-mono font-thin text-green-400"
+						style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+					/>
+				</TerminalOutput>
+			]);
+		}
+
+		if (input.includes('settings')) {
+			const regex = /settings character(?:\s+(\w+))?/;
+			const match = input.match(regex);
+
+			if (match && match[1]) {
+				const character = match[1];
+				console.log(match?.[1]);
+				props.handleTerminalInput({
+					command: 'character',
+					character,
+				});
+				setTerminalLineData([
+					...terminalLineData,
+					<TerminalOutput key={Math.random().toString(36).substring(7)}>
+						<TypeAnimation
+							sequence={[
+								500,
+								`You are now playing as ${character}`,
+							]}
+							wrapper="div"
+							cursor={false}
+							speed={{
+								type: 'keyStrokeDelayInMs',
+								value: 10
+							}}
+							className="terminal font-mono font-thin text-green-400"
+							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+						/>
+					</TerminalOutput>
+				]);
+
+				return;
+			}
+
+			setTerminalLineData([
+				...terminalLineData,
+				<TerminalOutput key={Math.random().toString(36).substring(7)}>
+					<TypeAnimation
+						sequence={[
+							500,
+							`
+							Available settings options:
+
+							CHANGE CHARACTER STYLE:
+							settings character default | character cowboy | ninja | middlemanager | boomer
+							-------------------
+							OPENAI KEY (notice: stored in local storage):
+							settings openai [key]
+							-------------------
 							`
 						]}
 						wrapper="div"
