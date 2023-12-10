@@ -1,34 +1,39 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
 import { useState } from 'react';
+import { useChat } from "ai/react"
 import { music } from './Toolbar';
+import { initialSpyPrompt, initialSystemPrompt } from '@/lib/prompts';
 
 export const LevelOneSequence = (props: {
 	username: string;
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
+	const { messages, append, isLoading } = useChat({
+		api: '/api/chat',
+		initialMessages: [
+			{ role: 'system', content: initialSystemPrompt, id: '0' },
+			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
+		],
+		body: {
+
+		},
+		onFinish: (message) => {
+			console.log('onFinish', message);
+		}
+	});
+	console.log(messages)
+
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
-			<TypeAnimation
-				sequence={[
-					1000,
-					`TODO - start spy convo - ${props.username}`,
-				]}
-				wrapper="div"
-				cursor={false}
-				speed={{
-					type: 'keyStrokeDelayInMs',
-					value: 10
-				}}
-				className="terminal font-mono font-thin text-green-400"
-				style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
-			/>
+			<></>
 		</TerminalOutput>
 	]);
 
 	const handleTerminalInput = (input: string) => {
 		if (input === 'clear') {
 			setTerminalLineData([]);
+			return;
 		}
 
 		if (input === 'help') {
@@ -56,6 +61,7 @@ export const LevelOneSequence = (props: {
 					/>
 				</TerminalOutput>
 			]);
+			return;
 		}
 
 		if (input.includes('music')) {
@@ -129,6 +135,15 @@ export const LevelOneSequence = (props: {
 				</TerminalOutput>
 			]);
 		}
+
+		if (input.length > 0) {
+			append({
+				role: 'user',
+				content: input,
+			});
+			setTerminalLineData([]);
+			return;
+		}
 	};
 
 	return (
@@ -141,6 +156,17 @@ export const LevelOneSequence = (props: {
 				<div className="relative">
 					<div className={`w-full`}>
 						{terminalLineData}
+						{messages
+							.slice()
+							.reverse()
+							.filter((m, i) => m.role !== 'user')
+							.slice(0, 1)
+							.map(m => (
+								<p key={m.id} className="font-mono text-2xl font-thin text-green-400">
+									{m?.content}
+								</p>
+							))
+						}
 					</div>
 				</div>
 

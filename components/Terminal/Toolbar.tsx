@@ -49,8 +49,8 @@ export const TerminalToolbar = (props: {
 			<div className="post-it">
 				<h1>Get this done today!</h1>
 				<p>
-					Move the nuke codes from the current folder, to the
-					new securely encrypted one.
+					Move the new nuke codes from the current folder, to the
+					new, securely encrypted one.
 				</p>
 			</div>
 		</div>
