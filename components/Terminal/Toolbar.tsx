@@ -38,12 +38,12 @@ export const TerminalToolbar = (props: {
 			</label>
 
 			<div id="casetteWrapper">
-				{props.musicTrack !== undefined && (
+				{props.musicTrack !== undefined && music[props.musicTrack] ? (
 					<Casette
 						title={music[props.musicTrack].title}
 						id={music[props.musicTrack].id}
 					/>
-				)}
+				) : null}
 			</div>
 
 			<div className="post-it">

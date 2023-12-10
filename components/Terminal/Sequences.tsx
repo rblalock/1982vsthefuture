@@ -243,6 +243,11 @@ export const LoggedInSequence = (props: {
 				return;
 			}
 
+			let musicList = ``;
+			music.forEach((item, index) => {
+				musicList += `${index}. ${item.title}\n`;
+			});
+
 			setTerminalLineData([
 				...terminalLineData,
 				<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -251,10 +256,10 @@ export const LoggedInSequence = (props: {
 							500,
 							`
 							Available music:
-							${music.map((item, index) => {
-								return `${index}. ${item.title}\n`;
-							})}
-							Type music [number] to play or stop at any time
+							${musicList}
+							Commands:
+							music [number] - to play a track
+							music stop - to stop the music
 							`
 						]}
 						wrapper="div"

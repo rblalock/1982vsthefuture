@@ -6,9 +6,11 @@ export const Casette = (props: {
 	id: string;
 }) => {
 	const [player, setPlayer] = useState<YouTubePlayer>();
-console.log(props.id)
+	const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
 	const onPlayerReady: YouTubeProps['onReady'] = (event) => {
 		setPlayer(event.target);
+		setIsPlaying(true);
 	}
 
 	const play = () => {
@@ -16,8 +18,10 @@ console.log(props.id)
 		casetteClickSound.play();
 		if (player?.getPlayerState() === 1) {
 			player?.pauseVideo();
+			setIsPlaying(false);
 		} else {
 			player?.playVideo();
+			setIsPlaying(true);
 		}
 	};
 
@@ -46,7 +50,7 @@ console.log(props.id)
 				<div className="cassette">
 					<div className="tape beginning">
 						<div className="center">
-							<div className="hole">
+							<div className={`hole ${isPlaying ? 'playing' : ''}`}>
 								<span />
 								<span />
 								<span />
@@ -58,7 +62,7 @@ console.log(props.id)
 					</div>
 					<div className="tape end">
 						<div className="center">
-							<div className="hole">
+							<div className={`hole ${isPlaying ? 'playing' : ''}`}>
 								<span />
 								<span />
 								<span />

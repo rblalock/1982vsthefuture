@@ -686,6 +686,16 @@ p {
 	left: 0;
 }
 
+@keyframes rotateScrew {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 .screw {
 	width: 12px;
 	height: 12px;
@@ -779,6 +789,10 @@ p {
 	left: 15%;
 	background-color: #f1f1f1;
 	box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+
+.tape .center .playing {
+	animation: rotateScrew 2s linear infinite;
 }
 
 .tape .center .hole span {
