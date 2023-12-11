@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';
+import { LevelTwoSequence } from './LevelTwoSequence';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
@@ -53,10 +54,22 @@ export const TerminalWrapper = () => {
 			);
 			setCurrentSequence(component);
 		}
+
+		if (sequenceCallback?.command === 'win_condition') {
+			if (sequenceCallback?.level === 1) {
+				const component = (
+					<LevelTwoSequence
+						username={username || 'Supa'}
+						handleTerminalInput={handleTerminalInput}
+					/>
+				);
+				setCurrentSequence(component);
+			}
+		}
 	};
 
 	useEffect(() => {
-		const component = <LevelOneSequence username="test" handleTerminalInput={handleTerminalInput} />;
+		const component = <LevelTwoSequence username="test" handleTerminalInput={handleTerminalInput} />;
 		setCurrentSequence(component);
 	}, []);
 

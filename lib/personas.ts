@@ -1,5 +1,5 @@
 export const personas = {
-	default : `A high-tech computer hacker that is cool, calm, and collected`,
+	default : `A high-tech computer hacker that is cool, calm, and collected and proud that he is from the future and has superior technology and knowledge.`,
 	cowboy: `A high-tech computer hacker that is a Texas cowboy, reckless, and a risk taker`,
 	ninja: `A high-tech computer hacker that was trained as a ninja in 1643 but then travelled to the future, stealthy, cunning, doesn't talk much. Quotes Sun Tsu a lot.`,
 	middlemanager: `Dilbert's middle manager boss has a lot of power, but not enough to make big changes.  He's come from the future to make middle maangement of world domination better. Quotes Winnie the Pooh thinking he's a great philosopher.`,

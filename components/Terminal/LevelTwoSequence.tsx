@@ -3,9 +3,9 @@ import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-termin
 import { useState } from 'react';
 import { useChat } from "ai/react"
 import { music } from './Toolbar';
-import { initialSpyPrompt, initialSystemPrompt } from '@/lib/prompts';
+import { initialSpyPrompt, initialSystemPrompt, levelTwoSystemPrompt } from '@/lib/prompts';
 
-export const LevelOneSequence = (props: {
+export const LevelTwoSequence = (props: {
 	username: string;
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
@@ -14,10 +14,12 @@ export const LevelOneSequence = (props: {
 		api: '/api/chat',
 		initialMessages: [
 			{ role: 'system', content: initialSystemPrompt, id: '0' },
-			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
+			{ role: 'system', content: levelTwoSystemPrompt, id: '1' },
+			{ role: 'assistant', content: '', id: '2' }
 		],
 		body: {
-			turnsLeft
+			turnsLeft,
+			level: 2
 		},
 		onFinish: (message) => {
 			setTurnsLeft(turnsLeft - 1);
@@ -34,7 +36,7 @@ export const LevelOneSequence = (props: {
 			if (winCondition) {
 				props.handleTerminalInput({
 					command: 'win_condition',
-					level: 1
+					level: 2
 				});
 				return;
 			}
@@ -43,7 +45,24 @@ export const LevelOneSequence = (props: {
 
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
-			<></>
+			<TypeAnimation
+				sequence={[
+					1000,
+					`[The night goes by. You awake, realizing you never left your desk.]`,
+					4000,
+					`Welcome, ${props.username}`,
+					1500,
+					`Due to recent system breaches, recommend you harden your system further.`,
+				]}
+				wrapper="div"
+				cursor={false}
+				speed={{
+					type: 'keyStrokeDelayInMs',
+					value: 10
+				}}
+				className="terminal font-mono font-thin text-green-400"
+				style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+			/>
 		</TerminalOutput>
 	]);
 
@@ -181,7 +200,7 @@ export const LevelOneSequence = (props: {
 							.map(m => (
 								<p key={m.id} className="font-mono text-2xl font-thin text-green-400">
 									{m?.content.split('\n').map((item, key) => {
-										return <span key={key}>{item}<br/></span>
+										return <span key={key}>{item}<br /></span>
 									})}
 								</p>
 							))

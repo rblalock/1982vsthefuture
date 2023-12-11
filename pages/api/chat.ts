@@ -25,8 +25,23 @@ export default async function interviewConversationApi(
 	// TODO Store current conversation in cache (?)
 
 	const messages = json.messages || [];
+	const turnsLeft = json.turnsLeft || 0;
+	const level = json.level || 1;
+	console.log('turnsLeft', turnsLeft);
+	if (turnsLeft <= 0) {
+		messages.push({
+			role: 'system',
+			content: 'There are no turns left after this.  One more turn and the Spy loses and the WIN CONDITION is met.',
+		});
+	} else {
+		messages.push({
+			role: 'system',
+			content: `There are ${turnsLeft} turns left.`,
+		});
+	}
+
 	const conversation = await AIConversationClient.createChatCompletion({
-		model: conversationModel,
+		model: (level > 1) ? 'gpt-4' : conversationModel,
 		stream: true,
 		messages: messages,
 	});
