@@ -588,3 +588,43 @@ export const StartGameSequence = (props: {
 		</div>
 	);
 };
+
+export const WinSequence = (props: {
+	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
+}) => {
+	const [terminalLineData, setTerminalLineData] = useState([
+		<TerminalOutput key={Math.random().toString(36).substring(7)}>
+			<TypeAnimation
+				// preRenderFirstString
+				sequence={[
+					`SYSTEMS RESTORED`,
+				]}
+				wrapper="div"
+				cursor={false}
+				speed={{
+					type: 'keyStrokeDelayInMs',
+					value: 10
+				}}
+				className="terminal font-mono font-thin text-green-400"
+				style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+			/>
+		</TerminalOutput>
+	]);
+
+	return (
+		<div>
+			<Terminal
+				prompt=">"
+				colorMode={ColorMode.Dark}
+			>
+				<div className="relative">
+					<div className={`w-full`}>
+						{terminalLineData}
+					</div>
+				</div>
+
+				<div className="scanline" />
+			</Terminal>
+		</div>
+	);
+};

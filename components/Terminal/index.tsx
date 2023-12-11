@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence } from './Sequences';
+import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence, WinSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';
 import { LevelTwoSequence } from './LevelTwoSequence';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
+	const [won, setWon] = useState<boolean>(false);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
 	const [username, setUsername] = useState();
@@ -65,11 +66,19 @@ export const TerminalWrapper = () => {
 				);
 				setCurrentSequence(component);
 			}
+			if (sequenceCallback?.level === 2) {
+				const component = (
+					<WinSequence
+						handleTerminalInput={handleTerminalInput}
+					/>
+				);
+				setCurrentSequence(component);
+			}
 		}
 	};
 
 	useEffect(() => {
-		const component = <LevelTwoSequence username="test" handleTerminalInput={handleTerminalInput} />;
+		const component = <LevelTwoSequence username='test' handleTerminalInput={handleTerminalInput} />;
 		setCurrentSequence(component);
 	}, []);
 
@@ -88,12 +97,38 @@ export const TerminalWrapper = () => {
 				</div>
 			</div>
 
-			{/* Toolbar */}
-			<TerminalToolbar
-				musicTrack={musicTrack}
-				isToggled={toggleDisplay}
-				setToggle={setToggleDisplay}
-			/>
+			{won ? (
+				<div className="h-screen w-screen text-center">
+					<div className="scene">
+						<div className="wrap">
+							<div className="wall wall-right"></div>
+							<div className="wall wall-left"></div>
+							<div className="wall wall-top"></div>
+							<div className="wall wall-bottom"></div>
+							<div className="wall wall-back"></div>
+						</div>
+						<div className="wrap">
+							<div className="wall wall-right"></div>
+							<div className="wall wall-left"></div>
+							<div className="wall wall-top"></div>
+							<div className="wall wall-bottom"></div>
+							<div className="wall wall-back"></div>
+						</div>
+					</div>
+
+					<div className={`absolute inset-0 z-50 mx-auto flex h-screen w-1/2 items-center justify-center`}>
+						<div className="rounded-3xl bg-black p-48 font-mono font-bold uppercase opacity-90 shadow-xl">
+							You won!
+						</div>
+					</div>
+				</div>
+			) : (
+				<TerminalToolbar
+					musicTrack={musicTrack}
+					isToggled={toggleDisplay}
+					setToggle={setToggleDisplay}
+				/>
+			)}
 		</>
 	);
 };
