@@ -12,7 +12,8 @@ const openaiConfig = new Configuration({
 })
 
 export const AIConversationClient = new OpenAIApi(openaiConfig);
-export const conversationModel = process.env.CONVERSATION_MODEL || 'gpt-4';
+// gpt-4-1106-preview
+export const conversationModel = process.env.CONVERSATION_MODEL || 'gpt-4-1106-preview';
 
 export default async function interviewConversationApi(
 	req: NextRequest,

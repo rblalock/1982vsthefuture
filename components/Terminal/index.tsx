@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
 import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';

@@ -298,7 +298,7 @@ export const LoggedInSequence = (props: {
 						<TypeAnimation
 							sequence={[
 								500,
-								`You are now playing as ${character}`,
+								`You are now playing against the ${character} character`,
 							]}
 							wrapper="div"
 							cursor={false}
@@ -324,7 +324,7 @@ export const LoggedInSequence = (props: {
 							Available settings options:
 
 							CHANGE CHARACTER STYLE:
-							settings character default | character cowboy | ninja | middlemanager | boomer
+							settings character default | cowboy | ninja | middlemanager | boomer
 							-------------------
 							OPENAI KEY (notice: stored in local storage):
 							settings openai [key]

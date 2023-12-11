@@ -19,10 +19,19 @@ export const LevelOneSequence = (props: {
 
 		},
 		onFinish: (message) => {
-			console.log('onFinish', message);
+			const loseCondition = message.content.includes('LOSE CONDITION MET');
+			const winCondition = message.content.includes('WIN CONDITION MET');
+
+			if (loseCondition) {
+				console.log('LOSE CONDITION MET');
+				return;
+			}
+
+			if (winCondition) {
+				console.log('WIN CONDITION MET');
+			}
 		}
 	});
-	console.log(messages)
 
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -163,7 +172,9 @@ export const LevelOneSequence = (props: {
 							.slice(0, 1)
 							.map(m => (
 								<p key={m.id} className="font-mono text-2xl font-thin text-green-400">
-									{m?.content}
+									{m?.content.split('\n').map((item, key) => {
+										return <span key={key}>{item}<br/></span>
+									})}
 								</p>
 							))
 						}
