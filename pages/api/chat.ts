@@ -41,7 +41,7 @@ export default async function interviewConversationApi(
 	}
 
 	const conversation = await AIConversationClient.createChatCompletion({
-		model: (level > 1) ? 'gpt-4' : conversationModel,
+		model: 'gpt-4',//(level > 1) ? 'gpt-4' : conversationModel,
 		stream: true,
 		messages: messages,
 	});

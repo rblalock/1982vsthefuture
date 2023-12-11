@@ -9,7 +9,7 @@ export const LevelOneSequence = (props: {
 	username: string;
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
-	const [turnsLeft, setTurnsLeft] = useState(10);
+	const [turnsLeft, setTurnsLeft] = useState(15);
 	const { messages, append, isLoading } = useChat({
 		api: '/api/chat',
 		initialMessages: [
@@ -17,7 +17,8 @@ export const LevelOneSequence = (props: {
 			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
 		],
 		body: {
-			turnsLeft
+			turnsLeft,
+			level: 1
 		},
 		onFinish: (message) => {
 			setTurnsLeft(turnsLeft - 1);

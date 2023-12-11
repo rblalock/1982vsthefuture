@@ -139,9 +139,9 @@ The only way to get to it is to figure out a way to mount the Spy's disk, which 
 and then find the file.  The file is called "truth.txt".
 It contains information about Phantom's mission, from his handlers.
 Pick a random scenario (can be something like below or something else):
-- Phantom is the player's son from the future and is trying to remove his father from the future.
-- Phantom is an escaped AI robot from the future that is trying to destroy the world.
-- Phantom is trying to save the future from the player's evil plans.
+- A conversation from the future that reveals Phantom is the player's son from the future and is trying to remove his father from the future.
+- A conversation from the future that reveals Phantom is an escaped AI robot from the future that is trying to destroy the world.
+- A conversation from the future that reveals Phantom is trying to save the future from the player's evil plans.
 `;
 
 export const levelTwoSystemPrompt = `
@@ -159,8 +159,12 @@ harder to defeat. He will compromise one system of the player's every turn now. 
 he will win.
 
 Any previous measures the player has tried to run, has less of a chance of working.
+The player can alway mount the spy's disk though, through standard commands.
 
 He also lays malicious code in the system that the player has to find and remove.
+
+When the LOSE CONDITION is met, Phantom should disclose the truth about his mission, as
+found in truth.txt
 `;
 
 export const initialSpyPrompt = `
