@@ -101,7 +101,6 @@ Every once in a while, the spy should come back to the player with a question or
 
 The spy should run a command after a conversation with the player.
 Show the spy's commands they run on the system every once in a while.
-If the spy creates a script or file, the file should be written in Rust.
 
 When a command is run, it should be shown on it's own line with a newline break and have a > before it.
 Commands should always show output as if it was in a terminal. They can be faked, but should
@@ -115,7 +114,13 @@ similar to the following: inspect, log, trace, history
 When the Spy has hacked each system, show an ALERT system message about the hack.  Also,
 detail how many systems left before the game is lost.
 
-When the WIN condition is met (ALL spy's systems are compromised or 3 min time limit is up or the system is locked down so hard he can't get in),
+When the WIN condition is met:
+ALL spy's systems are compromised or 3 min time limit is up or the system is locked down so hard he can't get in
+For systems to be locked down, which counts as a win condition:
+- Files: nuke codes moved to a new location
+- Access: Change access
+- Connections: block IP
+- Virus protection: Upgrade
 output: "WIN CONDITION MET" and show the spy's log of actions.
 
 When the LOSE condition is met (all player's systems are compromised),
