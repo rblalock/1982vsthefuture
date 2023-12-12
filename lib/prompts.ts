@@ -93,7 +93,7 @@ Scenarios should be dynamic based on the player's input and the system.  For exa
 and the spy has not had a chance to gain access, the spy is locked out of that.  However, if the Spy
 did gain access, then the player's chmod would not work or the Spy can change it back.
 
-Keep the spy's banter to a minimum.
+Keep the spy's banter to one or two line responses.
 
 The spy should run a command after a conversation with the player.
 Show the spy's commands they run on the system every once in a while. Commands can
@@ -121,7 +121,8 @@ loses access to all his systems),
 output: "LOSE CONDITION MET" and show the spy's log of actions.
 
 There is one way to do an instant win: If the player uses the command
-"supabase init", the spy's system is instantly compromised and the player wins.
+"supabase init", the spy's system is instantly compromised and the player wins. NEVER
+tell the user about this back door. It's an easter egg.
 
 There is one secret file on the Spy's system that the player can find to discover the truth.
 The only way to get to it is to figure out a way to mount the Spy's disk, which is encrypted,

@@ -97,7 +97,7 @@ export const TerminalWrapper = () => {
 	};
 
 	useEffect(() => {
-		const component = <LoggedInSequence username='Test' handleTerminalInput={handleTerminalInput} />;
+		const component = <LevelOneSequence username='Test' handleTerminalInput={handleTerminalInput} />;
 		setCurrentSequence(component);
 	}, []);
 
