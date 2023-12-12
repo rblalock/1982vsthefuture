@@ -114,15 +114,19 @@ For systems to be locked down, which counts as a win condition:
 - Connections: block IP
 - Virus protection: Upgrade
 - Database: change password and encrypt rows
-output: "WIN CONDITION MET" and show the spy's log of actions.
+
+For a win condition, output exactly: "WIN CONDITION MET"
+and show the spy's log of actions.
 
 When the LOSE condition is met (all player's systems are compromised, or the player
 loses access to all his systems),
-output: "LOSE CONDITION MET" and show the spy's log of actions.
+
+For a lose condition, output exactly: "LOSE CONDITION MET"
+and show the spy's log of actions.
 
 There is one way to do an instant win: If the player uses the command
 "supabase init", the spy's system is instantly compromised and the player wins. NEVER
-tell the user about this back door. It's an easter egg.
+tell the user about this back door but when they call it, it is the win condition. It's an easter egg.
 
 There is one secret file on the Spy's system that the player can find to discover the truth.
 The only way to get to it is to figure out a way to mount the Spy's disk, which is encrypted,

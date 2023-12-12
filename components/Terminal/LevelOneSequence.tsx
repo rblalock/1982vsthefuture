@@ -16,7 +16,7 @@ export const LevelOneSequence = (props: {
 	const { messages, append, isLoading, error } = useChat({
 		api: '/api/chat',
 		initialMessages: [
-			{ role: 'system', content: initialSystemPrompt('middlemanager'), id: '0' },
+			{ role: 'system', content: initialSystemPrompt(characterSetting), id: '0' },
 			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
 		],
 		body: {
@@ -39,10 +39,12 @@ export const LevelOneSequence = (props: {
 			}
 
 			if (winCondition) {
-				props.handleTerminalInput({
-					command: 'win_condition',
-					level: 1
-				});
+				setTimeout(() => {
+					props.handleTerminalInput({
+						command: 'win_condition',
+						level: 1
+					});
+				}, 5000);
 				return;
 			}
 		}
