@@ -80,6 +80,10 @@
   }
 }
 
+html, body {
+	@apply bg-black;
+}
+
 /* Terminal */
 .react-terminal-wrapper {
 	background-color: transparent !important;
