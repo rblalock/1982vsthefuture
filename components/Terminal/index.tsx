@@ -1,34 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { BootSequence, LoggedInSequence, LoginSequence, LoseSequence, StartGameSequence, WinSequence } from './Sequences';
+import { BootSequence, LoggedInSequence, LoginSequence, LoseSequence, SignupSequence, StartGameSequence, WinSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';
 import { LevelTwoSequence } from './LevelTwoSequence';
+import { useUser } from '../../hooks/useUser';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
 	const [won, setWon] = useState<boolean>(false);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
-	const [username, setUsername] = useState();
+	const { user, logout } = useUser();
 
-	const handleTerminalInput = (sequenceCallback: {[key: string]: any}) => {
-		if (sequenceCallback?.command === 'login') {
-			const component = <LoginSequence handleTerminalInput={handleTerminalInput} />;
-			setCurrentSequence(component);
+	useEffect(() => {
+		const component = <BootSequence handleTerminalInput={handleTerminalInput} />;
+		setCurrentSequence(component);
+	}, []);
+
+	const handleTerminalInput = useCallback((sequenceCallback: {[key: string]: any}) => {
+		if (sequenceCallback?.command === 'login' || sequenceCallback?.command === 'signup') {
+			if (!user) {
+				const component = <SignupSequence handleTerminalInput={handleTerminalInput} />;
+				setCurrentSequence(component);
+			} else {
+				if (!user?.username) {
+					const component = (
+						<LoginSequence
+							handleTerminalInput={handleTerminalInput}
+						/>
+					);
+					setCurrentSequence(component);
+
+					return;
+				}
+
+				const component = (
+					<LoggedInSequence
+						handleTerminalInput={handleTerminalInput}
+						username={user?.username || 'Supa'}
+					/>
+				);
+				setCurrentSequence(component);
+			}
 		}
 
 		if (sequenceCallback?.command === 'logout') {
-			const component = <BootSequence handleTerminalInput={handleTerminalInput} />;
-			setCurrentSequence(component);
+			logout();
+			setTimeout(() => window.location.replace('/'), 1000);
 		}
 
-		if (sequenceCallback?.command === 'loginSuccessful') {
-			setUsername(sequenceCallback.username);
+		if (sequenceCallback?.command === 'login_successful') {
 			const component = (
 				<LoggedInSequence
 					handleTerminalInput={handleTerminalInput}
-					username={sequenceCallback.username}
+					username={sequenceCallback.username || 'Supa'}
 				/>
 			);
 			setCurrentSequence(component);
@@ -50,7 +76,7 @@ export const TerminalWrapper = () => {
 		if (sequenceCallback?.command === 'level_one') {
 			const component = (
 				<LevelOneSequence
-					username={username || 'Supa'}
+					username={user?.username || 'Supa'}
 					handleTerminalInput={handleTerminalInput}
 				/>
 			);
@@ -65,7 +91,7 @@ export const TerminalWrapper = () => {
 			if (sequenceCallback?.level === 1) {
 				const component = (
 					<LevelTwoSequence
-						username={username || 'Supa'}
+						username={user?.username || 'Supa'}
 						handleTerminalInput={handleTerminalInput}
 					/>
 				);
@@ -86,20 +112,15 @@ export const TerminalWrapper = () => {
 			const component = (
 				<LoggedInSequence
 					handleTerminalInput={handleTerminalInput}
-					username={sequenceCallback.username}
+					username={user?.username || 'Supa'}
 				/>
 			);
 			setCurrentSequence(component);
 			setWon(false);
 		}
 
-		console.log(sequenceCallback);
-	};
-
-	useEffect(() => {
-		const component = <BootSequence handleTerminalInput={handleTerminalInput} />;
-		setCurrentSequence(component);
-	}, []);
+		console.log('sequenceCallback', sequenceCallback);
+	}, [user]);
 
 	return (
 		<>

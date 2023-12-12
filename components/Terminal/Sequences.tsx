@@ -1,9 +1,11 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts'
+import { Auth } from '@supabase/auth-ui-react'
 
 import { music } from './Toolbar';
+import { supabaseClient, useUser } from '@/hooks/useUser';
 
 export const BootSequence = (props: {
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
@@ -66,6 +68,7 @@ export const BootSequence = (props: {
 export const LoginSequence = (props: {
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
+	const { user, updateProfile } = useUser();
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
 			<TypeAnimation
@@ -84,48 +87,17 @@ export const LoginSequence = (props: {
 			/>
 		</TerminalOutput>
 	]);
-	const [username, setUsername] = useState<string>();
-	const [password, setPassword] = useState<string>();
 
-	const handleTerminalInput = (input: string) => {
-		if (!input || input === '') {
+	const handleTerminalInput = async (input: string) => {
+		if (!input || input === '' && input.length >= 3) {
 			return;
 		};
 
-		if (!username) {
-			setUsername(input);
+		await updateProfile(input);
 
-			setTerminalLineData([
-				...terminalLineData,
-				<TerminalOutput key={Math.random().toString(36).substring(7)}>
-					<>
-						{input}
-						<br />
-						<TypeAnimation
-							sequence={[
-								1000,
-								`Enter your password`,
-							]}
-							wrapper="div"
-							cursor={false}
-							speed={{
-								type: 'keyStrokeDelayInMs',
-								value: 10
-							}}
-							className="terminal font-mono font-thin text-green-400"
-							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
-						/>
-					</>
-				</TerminalOutput>
-			]);
-
-			return;
-		}
-
-		setPassword(input);
 		props.handleTerminalInput({
-			command: 'loginSuccessful',
-			username: username,
+			command: 'login_successful',
+			username: input,
 		});
 	};
 
@@ -139,6 +111,41 @@ export const LoginSequence = (props: {
 				<div className="relative">
 					<div className={`w-full`}>
 						{terminalLineData}
+					</div>
+				</div>
+
+				<div className="scanline" />
+			</Terminal>
+		</div>
+	);
+};
+
+export const SignupSequence = (props: {
+	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
+}) => {
+	const { user } = useUser();
+
+	useEffect(() => {
+		if (user?.id) {
+			props.handleTerminalInput({
+				command: 'login_successful',
+				username: user.username,
+			});
+		}
+	}, [user]);
+
+	return (
+		<div>
+			<Terminal
+				prompt=">"
+				colorMode={ColorMode.Dark}
+			>
+				<div className="relative">
+					<div className={`w-full`}>
+						<Auth
+							supabaseClient={supabaseClient}
+							providers={[]}
+						/>
 					</div>
 				</div>
 
@@ -392,7 +399,7 @@ export const LoggedInSequence = (props: {
 							OPENAI KEY (notice: stored in local storage):
 							settings openai [key]
 
-							${openAiKey ? 'You set one.' : 'Key not set yet'}
+							${openAiKey ? 'You already set one.' : 'Key not set yet'}
 							-------------------
 							`
 						]}

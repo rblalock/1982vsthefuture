@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useChat } from "ai/react"
 import { music } from './Toolbar';
 import { initialSpyPrompt, initialSystemPrompt } from '@/lib/prompts';
-import { useLocalStorage } from '@/lib/useLocalStorage';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 export const LevelOneSequence = (props: {
 	username: string;
