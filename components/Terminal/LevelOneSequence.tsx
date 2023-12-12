@@ -4,26 +4,32 @@ import { useState } from 'react';
 import { useChat } from "ai/react"
 import { music } from './Toolbar';
 import { initialSpyPrompt, initialSystemPrompt } from '@/lib/prompts';
+import { useLocalStorage } from '@/lib/useLocalStorage';
 
 export const LevelOneSequence = (props: {
 	username: string;
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
-	const [turnsLeft, setTurnsLeft] = useState(15);
-	const { messages, append, isLoading } = useChat({
+	const [characterSetting, setCharacterSetting] = useLocalStorage('character', 'default');
+	const [openAiKey, setOpenAiKey] = useLocalStorage<string | undefined>('openaikey', undefined);
+	const [turnsLeft, setTurnsLeft] = useState(10);
+	const { messages, append, isLoading, error } = useChat({
 		api: '/api/chat',
 		initialMessages: [
-			{ role: 'system', content: initialSystemPrompt, id: '0' },
+			{ role: 'system', content: initialSystemPrompt(characterSetting), id: '0' },
 			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
 		],
 		body: {
 			turnsLeft,
 			level: 1
 		},
+		headers: {
+			'openaikey': openAiKey || ''
+		},
 		onFinish: (message) => {
 			setTurnsLeft(turnsLeft - 1);
-			const loseCondition = message.content.includes('LOSE CONDITION MET');
-			const winCondition = message.content.includes('WIN CONDITION MET');
+			const loseCondition = message.content.includes('LOSE CONDITION');
+			const winCondition = message.content.includes('WIN CONDITION');
 
 			if (loseCondition) {
 				props.handleTerminalInput({

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { BootSequence, LoggedInSequence, LoginSequence, LoseSequence, StartGameSequence, WinSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';
@@ -6,7 +7,7 @@ import { LevelTwoSequence } from './LevelTwoSequence';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
-	const [won, setWon] = useState<boolean>(true);
+	const [won, setWon] = useState<boolean>(false);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
 	const [username, setUsername] = useState();
@@ -77,6 +78,7 @@ export const TerminalWrapper = () => {
 					/>
 				);
 				setCurrentSequence(component);
+				setWon(true);
 			}
 		}
 
@@ -88,7 +90,10 @@ export const TerminalWrapper = () => {
 				/>
 			);
 			setCurrentSequence(component);
+			setWon(false);
 		}
+
+		console.log(sequenceCallback);
 	};
 
 	useEffect(() => {

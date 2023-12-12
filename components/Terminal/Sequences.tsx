@@ -1,6 +1,8 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
 import { useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts'
+
 import { music } from './Toolbar';
 
 export const BootSequence = (props: {
@@ -150,6 +152,8 @@ export const LoggedInSequence = (props: {
 	username: string;
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
+	const [characterSetting, setCharacterSetting] = useLocalStorage('character', 'default');
+	const [openAiKey, setOpenAiKey] = useLocalStorage<string | undefined>('openaikey', undefined);
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
 			<TypeAnimation
@@ -283,22 +287,78 @@ export const LoggedInSequence = (props: {
 		}
 
 		if (input.includes('settings')) {
-			const regex = /settings character(?:\s+(\w+))?/;
-			const match = input.match(regex);
+			const characterRegex = /settings character(?:\s+(\w+))?/;
+			const characterMatch = input.match(characterRegex);
+			const openAIRegex = /settings openai(?:\s+(\S+))?/;
+			const matchOpenAI = input.match(openAIRegex);
 
-			if (match && match[1]) {
-				const character = match[1];
-				console.log(match?.[1]);
-				props.handleTerminalInput({
-					command: 'character',
-					character,
-				});
+			if (characterMatch && characterMatch[1]) {
+				const character = characterMatch[1];
+				if (['default', 'cowboy', 'ninja', 'middlemanager', 'boomer', 'terminator'].includes(character)) {
+					setCharacterSetting(character);
+
+					setTerminalLineData([
+						<TerminalOutput key={Math.random().toString(36).substring(7)}>
+							<TypeAnimation
+								sequence={[
+									500,
+									`You are now playing against the ${character} character`,
+								]}
+								wrapper="div"
+								cursor={false}
+								speed={{
+									type: 'keyStrokeDelayInMs',
+									value: 10
+								}}
+								className="terminal font-mono font-thin text-green-400"
+								style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+							/>
+						</TerminalOutput>
+					]);
+				} else {
+					setTerminalLineData([
+						<TerminalOutput key={Math.random().toString(36).substring(7)}>
+							<TypeAnimation
+								sequence={[
+									500,
+									`Invalid character name`,
+								]}
+								wrapper="div"
+								cursor={false}
+								speed={{
+									type: 'keyStrokeDelayInMs',
+									value: 10
+								}}
+								className="terminal font-mono font-thin text-green-400"
+								style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+							/>
+						</TerminalOutput>
+					]);
+				}
+
+				return;
+			}
+
+			if (matchOpenAI && matchOpenAI[1]) {
+				const key = matchOpenAI[1];
+				setOpenAiKey(key);
 				setTerminalLineData([
 					<TerminalOutput key={Math.random().toString(36).substring(7)}>
 						<TypeAnimation
 							sequence={[
 								500,
-								`You are now playing against the ${character} character`,
+								`OpenAI API Key set
+
+								NOTE:
+								This key is stored in your local storage and only used for this game and
+								for convenience sake for the demo so you don't have to set up your own.
+
+								It's only used as a header, passed to an API, which then pings OpenAI on your
+								key's behalf.
+
+								You should clear your local storage after playing this game so it's not
+								sitting around in your browser.
+								`,
 							]}
 							wrapper="div"
 							cursor={false}
@@ -324,10 +384,15 @@ export const LoggedInSequence = (props: {
 							Available settings options:
 
 							CHANGE CHARACTER STYLE:
-							settings character default | cowboy | ninja | middlemanager | boomer
+							settings character default | cowboy | ninja | middlemanager | boomer | terminator
+
+							Current character: ${characterSetting ||  'default'}
+
 							-------------------
 							OPENAI KEY (notice: stored in local storage):
 							settings openai [key]
+
+							${openAiKey ? 'You set one.' : 'Key not set yet'}
 							-------------------
 							`
 						]}
@@ -381,6 +446,29 @@ export const LoggedInSequence = (props: {
 		const cdCmd = ['cd', 'dir', 'change', 'open', 'location'];
 		const inputParts = input.split(' ');
 		if (cdCmd.includes(inputParts[0])) {
+			if (!openAiKey) {
+				setTerminalLineData([
+					<TerminalOutput key={Math.random().toString(36).substring(7)}>
+						<TypeAnimation
+							sequence={[
+								500,
+								`You need to set your OpenAI key to start the game.  Type "settings" for more information.`,
+							]}
+							wrapper="div"
+							cursor={false}
+							speed={{
+								type: 'keyStrokeDelayInMs',
+								value: 10
+							}}
+							className="terminal font-mono font-thin text-green-400"
+							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+						/>
+					</TerminalOutput>
+				]);
+
+				return;
+			}
+
 			const dir = inputParts[1];
 			if (directories.includes(dir)) {
 				props.handleTerminalInput({
@@ -413,6 +501,29 @@ export const LoggedInSequence = (props: {
 		const moveCmd = ['mv', 'move', 'change', 'open', 'location'];
 		const moveInputParts = input.split(' ');
 		if (moveCmd.includes(moveInputParts[0])) {
+			if (!openAiKey) {
+				setTerminalLineData([
+					<TerminalOutput key={Math.random().toString(36).substring(7)}>
+						<TypeAnimation
+							sequence={[
+								500,
+								`You need to set your OpenAI key to start the game.  Type "settings" for more information.`,
+							]}
+							wrapper="div"
+							cursor={false}
+							speed={{
+								type: 'keyStrokeDelayInMs',
+								value: 10
+							}}
+							className="terminal font-mono font-thin text-green-400"
+							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+						/>
+					</TerminalOutput>
+				]);
+
+				return;
+			}
+
 			const dir = moveInputParts[1];
 			if (directories.includes(dir)) {
 				props.handleTerminalInput({

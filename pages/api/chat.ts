@@ -7,11 +7,6 @@ export const config = {
 	runtime: 'edge',
 };
 
-const openaiConfig = new Configuration({
-	apiKey: process.env.OPENAI_API_KEY
-})
-
-export const AIConversationClient = new OpenAIApi(openaiConfig);
 // gpt-4-1106-preview
 export const conversationModel = process.env.CONVERSATION_MODEL || 'gpt-4-1106-preview';
 
@@ -20,6 +15,12 @@ export default async function interviewConversationApi(
 	res: NextResponse
 ) {
 	const json = await req.json();
+	const headers = req.headers;
+	const openaikey = headers.get('openaikey');
+
+	if (!openaikey || openaikey == '') {
+		return new Response('Unauthorized', { status: 401 });
+	}
 
 	// TODO need to check against session token or auth of respondent once we implement that
 	// TODO Store current conversation in cache (?)
@@ -40,6 +41,10 @@ export default async function interviewConversationApi(
 		});
 	}
 
+	const openaiConfig = new Configuration({
+		apiKey: openaikey,
+	});
+	const AIConversationClient = new OpenAIApi(openaiConfig);
 	const conversation = await AIConversationClient.createChatCompletion({
 		model: 'gpt-4',//(level > 1) ? 'gpt-4' : conversationModel,
 		stream: true,
