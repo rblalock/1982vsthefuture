@@ -589,6 +589,7 @@ export const StartGameSequence = (props: {
 	);
 };
 
+// TODO: Add credits, ability to start over, links, etc.
 export const WinSequence = (props: {
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {
@@ -616,6 +617,121 @@ export const WinSequence = (props: {
 			<Terminal
 				prompt=">"
 				colorMode={ColorMode.Dark}
+			>
+				<div className="relative">
+					<div className={`w-full`}>
+						{terminalLineData}
+					</div>
+				</div>
+
+				<div className="scanline" />
+			</Terminal>
+		</div>
+	);
+};
+
+export const LoseSequence = (props: {
+	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
+}) => {
+	const [terminalLineData, setTerminalLineData] = useState([
+		<TerminalOutput key={Math.random().toString(36).substring(7)}>
+			<TypeAnimation
+				sequence={[
+					`
+					WORLD SYSTEMS BREACH.
+					ALL SYSTEMS COMPROMISED.
+
+					YOU LOST.  HOPEFULLY THE FUTURE ISN'T AS BLEAK AS IT SEEMS.`,
+				]}
+				wrapper="div"
+				cursor={false}
+				speed={{
+					type: 'keyStrokeDelayInMs',
+					value: 10
+				}}
+				className="terminal font-mono font-thin text-red-400"
+				style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+			/>
+		</TerminalOutput>
+	]);
+
+	const handleTerminalInput = (input: string) => {
+		if (!input || input === '') {
+			return;
+		};
+
+		if (input === 'restart') {
+			setTerminalLineData([
+				<TerminalOutput key={Math.random().toString(36).substring(7)}>
+					<>
+						<TypeAnimation
+							sequence={[
+								`
+								Suddenly...you feel odd...as if you're being sucked into a vortex...
+								But you're still here.
+								The clock time is different, the time of day is different, but
+								everything else is the same.
+								`,
+								7500,
+								() => {
+									props.handleTerminalInput({
+										command: 'restart'
+									});
+								},
+							]}
+							wrapper="div"
+							cursor={false}
+							speed={{
+								type: 'keyStrokeDelayInMs',
+								value: 1
+							}}
+							className="terminal font-mono font-thin text-green-400"
+							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+						/>
+					</>
+				</TerminalOutput>
+			]);
+
+			return;
+		}
+
+		if (input === 'help') {
+			setTerminalLineData([
+				<TerminalOutput key={Math.random().toString(36).substring(7)}>
+					<>
+						<TypeAnimation
+							sequence={[
+								1000,
+								`
+								AVAILABLE COMMANDS:
+								-------------------
+								restart
+								help
+								`,
+							]}
+							wrapper="div"
+							cursor={false}
+							speed={{
+								type: 'keyStrokeDelayInMs',
+								value: 10
+							}}
+							className="terminal font-mono font-thin text-green-400"
+							style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+						/>
+					</>
+				</TerminalOutput>
+			]);
+
+			return;
+		}
+	};
+
+	return (
+		<div>
+			<Terminal
+				prompt=">"
+				colorMode={ColorMode.Dark}
+				onInput={handleTerminalInput}
 			>
 				<div className="relative">
 					<div className={`w-full`}>

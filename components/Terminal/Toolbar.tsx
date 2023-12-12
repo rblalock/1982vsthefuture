@@ -21,7 +21,7 @@ export const TerminalToolbar = (props: {
 	setToggle: (toggleDisplay: boolean) => void;
 }) => {
 	return (
-		<div className="relative z-50 w-full bg-gray-900 shadow-2xl">
+		<div className="relative z-50 w-screen bg-gray-900 shadow-2xl">
 			<label className="rocker rocker-small cursor-pointer">
 				<input
 					id="switch"

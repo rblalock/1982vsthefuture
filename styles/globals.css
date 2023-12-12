@@ -1054,6 +1054,7 @@ p {
 	text-decoration: underline;
 }
 
+/* Taken from: https: //codepen.io/rblalock/pen/qBgwpdz */
 .wall {
 	background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/18515/PIA09959-1280x800_copy.jpg);
 	background-size: cover;
@@ -1144,67 +1145,3 @@ p {
 		opacity: 0;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.scene {
-  animation: 🤫 300s infinite linear;
-}
-
-@keyframes 🤫 {
-  0%{
-    filter: hue-rotate(0)
-  }
-  50% {
-    filter: hue-rotate(180deg) saturation(5);
-    transform: scaleX(4000);
-    perspective: 50px;
-  }
-
-  100%{
-    filter: hue-rotate(360deg);
-  }
-}
-*/

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { BootSequence, LoggedInSequence, LoginSequence, StartGameSequence, WinSequence } from './Sequences';
+import { BootSequence, LoggedInSequence, LoginSequence, LoseSequence, StartGameSequence, WinSequence } from './Sequences';
 import { TerminalToolbar } from './Toolbar';
 import { LevelOneSequence } from './LevelOneSequence';
 import { LevelTwoSequence } from './LevelTwoSequence';
 
 export const TerminalWrapper = () => {
 	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
-	const [won, setWon] = useState<boolean>(false);
+	const [won, setWon] = useState<boolean>(true);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
 	const [username, setUsername] = useState();
@@ -56,6 +56,10 @@ export const TerminalWrapper = () => {
 			setCurrentSequence(component);
 		}
 
+		if (sequenceCallback?.command === 'lose_condition') {
+
+		}
+
 		if (sequenceCallback?.command === 'win_condition') {
 			if (sequenceCallback?.level === 1) {
 				const component = (
@@ -75,10 +79,20 @@ export const TerminalWrapper = () => {
 				setCurrentSequence(component);
 			}
 		}
+
+		if (sequenceCallback?.command === 'restart') {
+			const component = (
+				<LoggedInSequence
+					handleTerminalInput={handleTerminalInput}
+					username={sequenceCallback.username}
+				/>
+			);
+			setCurrentSequence(component);
+		}
 	};
 
 	useEffect(() => {
-		const component = <LevelTwoSequence username='test' handleTerminalInput={handleTerminalInput} />;
+		const component = <LoggedInSequence username='Test' handleTerminalInput={handleTerminalInput} />;
 		setCurrentSequence(component);
 	}, []);
 
