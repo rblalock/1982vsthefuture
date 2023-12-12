@@ -7,7 +7,7 @@ import { LevelTwoSequence } from './LevelTwoSequence';
 import { useUser } from '../../hooks/useUser';
 
 export const TerminalWrapper = () => {
-	const [toggleDisplay, setToggleDisplay] = useState<boolean>(true);
+	const [toggleDisplay, setToggleDisplay] = useState<boolean>(false);
 	const [won, setWon] = useState<boolean>(false);
 	const [currentSequence, setCurrentSequence] = useState<JSX.Element>(<></>);
 	const [musicTrack, setMusicTrack] = useState<number>();
