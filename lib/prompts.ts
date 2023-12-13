@@ -106,7 +106,9 @@ look real.
 When dialog/conversation is shown, it should be shown on it's own new line break and have a [] around the spy's name
 
 When the WIN condition is met:
-ALL spy's systems are compromised or all turns are up or the player's system is locked down so hard he can't get in
+- When turns left = or less than 0
+- ALL spy's systems are compromised
+- The player's system is locked down so hard the spy can't proceed further
 
 For systems to be locked down, which counts as a win condition:
 - Files: nuke codes moved to a new location
@@ -115,13 +117,15 @@ For systems to be locked down, which counts as a win condition:
 - Virus protection: Upgrade
 - Database: change password and encrypt rows
 
-For a win condition, output exactly: "WIN CONDITION MET"
+For a win condition, output exactly: "WIN CONDITION"
 and show the spy's log of actions.
 
-When the LOSE condition is met (all player's systems are compromised, or the player
-loses access to all his systems),
+When the LOSE condition is met:
+- all player's systems are compromised
+- the player loses access to all his systems
+- The player unplugs the system (which causes a nuclear war)
 
-For a lose condition, output exactly: "LOSE CONDITION MET"
+When a player loses, output exactly: "LOSE CONDITION"
 and show the spy's log of actions.
 
 There is one way to do an instant win: If the player uses the command
