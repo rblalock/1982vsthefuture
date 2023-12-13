@@ -183,6 +183,7 @@ export const LoggedInSequence = (props: {
 	const handleTerminalInput = (input: string) => {
 		if (input === 'clear') {
 			setTerminalLineData([]);
+			return;
 		}
 
 		if (input === 'logout') {
@@ -206,6 +207,9 @@ export const LoggedInSequence = (props: {
 							help
 							music
 							logout
+
+							And normal terminal commands like:
+							ls, dir, mv, cd, etc.
 							`
 						]}
 						wrapper="div"
@@ -219,6 +223,7 @@ export const LoggedInSequence = (props: {
 					/>
 				</TerminalOutput>
 			]);
+			return;
 		}
 
 		if (input.includes('music')) {
@@ -291,6 +296,8 @@ export const LoggedInSequence = (props: {
 					/>
 				</TerminalOutput>
 			]);
+
+			return;
 		}
 
 		if (input.includes('settings')) {
@@ -396,7 +403,7 @@ export const LoggedInSequence = (props: {
 							Current character: ${characterSetting ||  'default'}
 
 							-------------------
-							OPENAI KEY (notice: stored in local storage):
+							OPENAI KEY (Must have access to gpt-4):
 							settings openai [key]
 
 							${openAiKey ? 'You already set one.' : 'Key not set yet'}
@@ -414,6 +421,8 @@ export const LoggedInSequence = (props: {
 					/>
 				</TerminalOutput>
 			]);
+
+			return;
 		}
 
 		const directories = [
@@ -448,11 +457,13 @@ export const LoggedInSequence = (props: {
 					/>
 				</TerminalOutput>
 			]);
+
+			return;
 		}
 
 		const cdCmd = ['cd', 'dir', 'change', 'open', 'location'];
 		const inputParts = input.split(' ');
-		if (cdCmd.includes(inputParts[0])) {
+		if (cdCmd.includes(inputParts?.[0])) {
 			if (!openAiKey) {
 				setTerminalLineData([
 					<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -472,8 +483,6 @@ export const LoggedInSequence = (props: {
 						/>
 					</TerminalOutput>
 				]);
-
-				return;
 			}
 
 			const dir = inputParts[1];
@@ -503,11 +512,13 @@ export const LoggedInSequence = (props: {
 					</TerminalOutput>
 				]);
 			}
+
+			return;
 		}
 
 		const moveCmd = ['mv', 'move', 'change', 'open', 'location'];
 		const moveInputParts = input.split(' ');
-		if (moveCmd.includes(moveInputParts[0])) {
+		if (moveCmd.includes(moveInputParts?.[0])) {
 			if (!openAiKey) {
 				setTerminalLineData([
 					<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -527,8 +538,6 @@ export const LoggedInSequence = (props: {
 						/>
 					</TerminalOutput>
 				]);
-
-				return;
 			}
 
 			const dir = moveInputParts[1];
@@ -558,7 +567,29 @@ export const LoggedInSequence = (props: {
 					</TerminalOutput>
 				]);
 			}
+
+			return;
 		}
+
+		// Otherwise, show a hint
+		setTerminalLineData([
+			<TerminalOutput key={Math.random().toString(36).substring(7)}>
+				<TypeAnimation
+					sequence={[
+						500,
+						`Command not found.  Type "help" for a list of commands.`
+					]}
+					wrapper="div"
+					cursor={false}
+					speed={{
+						type: 'keyStrokeDelayInMs',
+						value: 10
+					}}
+					className="terminal font-mono font-thin text-green-400"
+					style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+				/>
+			</TerminalOutput>
+		]);
 	};
 
 	return (
