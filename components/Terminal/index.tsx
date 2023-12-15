@@ -18,7 +18,7 @@ export const TerminalWrapper = () => {
 		setCurrentSequence(component);
 	}, []);
 
-	const handleTerminalInput = useCallback((sequenceCallback: {[key: string]: any}) => {
+	const handleTerminalInput = useCallback(async (sequenceCallback: {[key: string]: any}) => {
 		if (sequenceCallback?.command === 'login' || sequenceCallback?.command === 'signup') {
 			if (!user) {
 				const component = <SignupSequence handleTerminalInput={handleTerminalInput} />;
@@ -84,7 +84,12 @@ export const TerminalWrapper = () => {
 		}
 
 		if (sequenceCallback?.command === 'lose_condition') {
-
+			const component = (
+				<LoseSequence
+					handleTerminalInput={handleTerminalInput}
+				/>
+			);
+			setCurrentSequence(component);
 		}
 
 		if (sequenceCallback?.command === 'win_condition') {
@@ -157,8 +162,9 @@ export const TerminalWrapper = () => {
 					</div>
 
 					<div className={`absolute inset-0 z-50 mx-auto flex h-screen w-1/2 items-center justify-center`}>
-						<div className="rounded-3xl bg-black p-48 font-mono font-bold uppercase opacity-90 shadow-xl">
-							You won!
+						<div className="rounded-3xl bg-black p-48 font-mono font-bold uppercase text-white opacity-90 shadow-xl">
+							You won! ...
+							<br />but suddenly you feel yourself getting pulled into the future.
 						</div>
 					</div>
 				</div>

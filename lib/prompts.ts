@@ -166,6 +166,12 @@ When the LOSE CONDITION is met, Phantom should disclose the truth about his miss
 found in truth.txt
 `;
 
+export const levelOneSystemPrompt = `
+In this level, it is easier for the player to block the spy from the system.
+Basic terminal commands such as
+chmod, ip blocking, rm -rf, etc. can block the spy from gaining access to the system.
+`;
+
 export const initialSpyPrompt = `
 Ah, so you're the one we've heard so much about...
 `;

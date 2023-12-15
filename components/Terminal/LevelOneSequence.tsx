@@ -1,15 +1,22 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
 import { useState } from 'react';
-import { useChat } from "ai/react"
+import { Message, useChat } from "ai/react"
 import { music } from './Toolbar';
-import { initialSpyPrompt, initialSystemPrompt } from '@/lib/prompts';
+import { initialSpyPrompt, initialSystemPrompt, levelOneSystemPrompt } from '@/lib/prompts';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useRound } from '@/hooks/useRound';
 
 export const LevelOneSequence = (props: {
 	username: string;
-	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
+	handleTerminalInput: (
+		sequenceCallback: {
+			[key: string]: any,
+			messages?: Message[]
+		},
+	) => void;
 }) => {
+	const { insertRound } = useRound();
 	const [characterSetting, setCharacterSetting] = useLocalStorage('character', 'default');
 	const [openAiKey, setOpenAiKey] = useLocalStorage<string | undefined>('openaikey', undefined);
 	const [turnsLeft, setTurnsLeft] = useState(10);
@@ -17,7 +24,8 @@ export const LevelOneSequence = (props: {
 		api: '/api/chat',
 		initialMessages: [
 			{ role: 'system', content: initialSystemPrompt(characterSetting), id: '0' },
-			{ role: 'assistant', content: initialSpyPrompt, id: '1' }
+			{ role: 'system', content: levelOneSystemPrompt, id: '1' },
+			{ role: 'assistant', content: initialSpyPrompt, id: '2' }
 		],
 		body: {
 			turnsLeft,
@@ -33,8 +41,11 @@ export const LevelOneSequence = (props: {
 
 			if (loseCondition) {
 				props.handleTerminalInput({
-					command: 'lose_condition'
+					command: 'lose_condition',
+					messages
 				});
+
+				handleInsertRound(false);
 				return;
 			}
 
@@ -42,13 +53,22 @@ export const LevelOneSequence = (props: {
 				setTimeout(() => {
 					props.handleTerminalInput({
 						command: 'win_condition',
-						level: 1
+						level: 1,
+						messages
 					});
 				}, 5000);
 				return;
 			}
 		}
 	});
+
+	const handleInsertRound = async (win: boolean) => {
+		await insertRound({
+			log: messages.filter(m => m.role !== 'system').map(m => m.content).join('\n'),
+			did_win: win,
+			character_type: characterSetting,
+		});
+	};
 
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>

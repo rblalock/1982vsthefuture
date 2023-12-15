@@ -46,7 +46,7 @@ export default async function interviewConversationApi(
 	});
 	const AIConversationClient = new OpenAIApi(openaiConfig);
 	const conversation = await AIConversationClient.createChatCompletion({
-		model: 'gpt-4',//(level > 1) ? 'gpt-4' : conversationModel,
+		model: 'gpt-4-1106-preview', //'gpt-4',//(level > 1) ? 'gpt-4' : conversationModel,
 		stream: true,
 		messages: messages,
 	});

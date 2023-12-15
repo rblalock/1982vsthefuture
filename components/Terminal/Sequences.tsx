@@ -818,10 +818,9 @@ export const LoseSequence = (props: {
 								`
 								Suddenly...you feel odd...as if you're being sucked into a vortex...
 								But you're still here.
-								The clock time is different, the time of day is different, but
-								everything else is the same.
+								The date is different but everything else is the same.
 								`,
-								7500,
+								5500,
 								() => {
 									props.handleTerminalInput({
 										command: 'restart'

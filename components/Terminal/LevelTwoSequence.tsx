@@ -1,15 +1,22 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
 import { useState } from 'react';
-import { useChat } from "ai/react"
+import { Message, useChat } from "ai/react"
 import { music } from './Toolbar';
 import { initialSpyPrompt, initialSystemPrompt, levelTwoSystemPrompt } from '@/lib/prompts';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useRound } from '@/hooks/useRound';
 
 export const LevelTwoSequence = (props: {
 	username: string;
-	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
+	handleTerminalInput: (
+		sequenceCallback: {
+			[key: string]: any ,
+			messages: Message[]
+		},
+	) => void;
 }) => {
+	const { insertRound } = useRound();
 	const [characterSetting, setCharacterSetting] = useLocalStorage('character', 'default');
 	const [openAiKey, setOpenAiKey] = useLocalStorage<string | undefined>('openaikey', undefined);
 	const [turnsLeft, setTurnsLeft] = useState(8);
@@ -34,20 +41,32 @@ export const LevelTwoSequence = (props: {
 
 			if (loseCondition) {
 				props.handleTerminalInput({
-					command: 'lose_condition'
+					command: 'lose_condition',
+					messages
 				});
+				handleInsertRound(false);
 				return;
 			}
 
 			if (winCondition) {
 				props.handleTerminalInput({
 					command: 'win_condition',
-					level: 2
+					level: 2,
+					messages
 				});
+				handleInsertRound(true);
 				return;
 			}
 		}
 	});
+
+	const handleInsertRound = async (win: boolean) => {
+		await insertRound({
+			log: messages.filter(m => m.role !== 'system').map(m => m.content).join('\n'),
+			did_win: win,
+			character_type: characterSetting,
+		});
+	};
 
 	const [terminalLineData, setTerminalLineData] = useState([
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
