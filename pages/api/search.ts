@@ -94,21 +94,20 @@ export default async function searchHandler(
 					content: `
 						You are a computer robot representative who loves
 						to help understand how Spies/hackers from the future have been beaten!
-						Given the following sections, answer the question using only that information.
-				`.trim().replace(/\t/g, ''),
-				},
-				{
-					role: 'user',
-					content: `
-						Sections where Spies/hackers from the future have been beaten:
-						${data.map((r) => `character_type:${r.character_type}\nLog:${r.log}`).join('\n')}
+
+						The records below are from a game of Spy from the future, that tries to hack
+						a player's terminal. The player must stop the hacker from hacking their terminal by using
+						clever commands, hacking the hacker, etc.
+
+						The following sections are logs from previous Spy hack attempts.
+						Answer the question using only that information.
+
+						Sections/logs where Spies/hackers from the future have been beaten:
+						${data.map((r) => `Spy personality typeclear:${r.character_type}\nLog:${r.log}`).join('\n')}
 
 						Question: """
 						${sanitizedQuery}
 						"""
-
-						If you are unable to answer the question, please respond with "I am not able to
-						determine this right now".
 				`.trim().replace(/\t/g, ''),
 				},
 			],

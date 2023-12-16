@@ -187,6 +187,29 @@ export const LoggedInSequence = (props: {
 		const accessToken = token.access_token;
 		const refreshToken = token.refresh_token;
 
+		setTerminalLineData([
+			<TerminalOutput key={Math.random().toString(36).substring(7)}>
+				<TypeAnimation
+					sequence={[
+						500,
+						`Searching...`,
+						1500,
+						`Refining...`,
+						2500,
+						`Downloading...`,
+					]}
+					wrapper="div"
+					cursor={false}
+					speed={{
+						type: 'keyStrokeDelayInMs',
+						value: 10
+					}}
+					className="terminal font-mono font-thin text-green-400"
+					style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+				/>
+			</TerminalOutput>
+		]);
+
 		const response = await fetch('/api/search', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -202,7 +225,6 @@ export const LoggedInSequence = (props: {
 		});
 
 		const payload = await response.json()
-		console.log(payload)
 
 		setTerminalLineData([
 			<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -617,8 +639,7 @@ export const LoggedInSequence = (props: {
 		}
 
 		if (input.includes('search')) {
-			const inputParts = input.split(' ');
-			const search = inputParts[1];
+			const search = input.replace('search', '').trim();
 
 			if (search) {
 				handleSearch(search);
