@@ -159,6 +159,7 @@ export const LevelTwoSequence = (props: {
 				props.handleTerminalInput({
 					command: 'music',
 					track: undefined,
+					messages: []
 				});
 				return;
 			}
@@ -168,6 +169,7 @@ export const LevelTwoSequence = (props: {
 				props.handleTerminalInput({
 					command: 'music',
 					track: id,
+					messages: []
 				});
 				setTerminalLineData([
 					...terminalLineData,
