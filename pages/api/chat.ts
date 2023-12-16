@@ -32,7 +32,7 @@ export default async function interviewConversationApi(
 	if (turnsLeft <= 0) {
 		messages.push({
 			role: 'system',
-			content: 'There are no turns left after this.  One more turn and the Spy loses and the WIN CONDITION is met.',
+			content: 'There are no turns left after this.  One more turn and if any systems are still protected, the Spy loses and the WIN CONDITION is met. If all systems are compromised, the Spy wins and the LOSE CONDITION is met.',
 		});
 	} else {
 		messages.push({

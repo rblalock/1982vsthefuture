@@ -68,7 +68,7 @@ export default async function createEmbeddings(
 	try {
 		const messages = json.messages || [];
 		const AIClient = new OpenAI({
-			apiKey: process.env.OPENAI_API_KEY
+			apiKey: openaikey! as string
 		});
 		const model = 'text-embedding-ada-002';
 		const embeddings = await AIClient.embeddings.create({
