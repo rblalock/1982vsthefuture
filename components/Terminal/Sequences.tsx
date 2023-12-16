@@ -180,6 +180,50 @@ export const LoggedInSequence = (props: {
 		</TerminalOutput>
 	]);
 
+	const handleSearch = async (search: string) => {
+		// I DONT UNDERSTAND WHY ITS IN LS AND I HAVE TO DO THIS. Docs seem to do it differently but
+		// this is the only way I could make it work.
+		const token = JSON.parse(localStorage.getItem('sb-aqpsyixuuqiflmvbnykl-auth-token') || '{}');
+		const accessToken = token.access_token;
+		const refreshToken = token.refresh_token;
+
+		const response = await fetch('/api/search', {
+			method: 'POST',
+			body: JSON.stringify({
+				search
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+				'openaikey': openAiKey || '',
+				'accesstoken': accessToken,
+				'refreshtoken': refreshToken,
+			},
+			credentials: 'include'
+		});
+
+		const payload = await response.json()
+		console.log(payload)
+
+		setTerminalLineData([
+			<TerminalOutput key={Math.random().toString(36).substring(7)}>
+				<TypeAnimation
+					sequence={[
+						500,
+						`${payload.results}`,
+					]}
+					wrapper="div"
+					cursor={false}
+					speed={{
+						type: 'keyStrokeDelayInMs',
+						value: 10
+					}}
+					className="terminal font-mono font-thin text-green-400"
+					style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+				/>
+			</TerminalOutput>
+		]);
+	};
+
 	const handleTerminalInput = (input: string) => {
 		if (input === 'clear') {
 			setTerminalLineData([]);
@@ -203,6 +247,7 @@ export const LoggedInSequence = (props: {
 							AVAILABLE COMMANDS:
 							-------------------
 							settings
+							search
 							clear
 							help
 							music
@@ -571,6 +616,43 @@ export const LoggedInSequence = (props: {
 			return;
 		}
 
+		if (input.includes('search')) {
+			const inputParts = input.split(' ');
+			const search = inputParts[1];
+
+			if (search) {
+				handleSearch(search);
+				return;
+			}
+
+			setTerminalLineData([
+				<TerminalOutput key={Math.random().toString(36).substring(7)}>
+					<TypeAnimation
+						sequence={[
+							500,
+							`
+							Search the world database for how other hackers have defeated the
+							hacking invasion from the future.
+
+							search "[term|phrase|question]" (use quotes)
+							`
+						]}
+						wrapper="div"
+						cursor={false}
+						speed={{
+							type: 'keyStrokeDelayInMs',
+							value: 10
+						}}
+						className="terminal font-mono font-thin text-green-400"
+						style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+					/>
+				</TerminalOutput>
+			]);
+
+			return;
+		}
+
+		// ----------------------------------
 		// Otherwise, show a hint
 		setTerminalLineData([
 			<TerminalOutput key={Math.random().toString(36).substring(7)}>

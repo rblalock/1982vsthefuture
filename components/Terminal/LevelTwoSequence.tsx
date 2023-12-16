@@ -54,7 +54,9 @@ export const LevelTwoSequence = (props: {
 					level: 2,
 					messages
 				});
-				handleInsertRound(true);
+				setTimeout(() => {
+					handleInsertRound(true);
+				}, 7000);
 				return;
 			}
 		}
