@@ -841,7 +841,6 @@ export const StartGameSequence = (props: {
 	);
 };
 
-// TODO: Add credits, ability to start over, links, etc.
 export const WinSequence = (props: {
 	handleTerminalInput: (sequenceCallback: { [key: string]: any }) => void;
 }) => {

@@ -118,6 +118,10 @@ export const LevelTwoSequence = (props: {
 	]);
 
 	const handleTerminalInput = (input: string) => {
+		if (isLoading) {
+			return;
+		}
+
 		if (input === 'clear') {
 			setTerminalLineData([]);
 			return;
@@ -260,6 +264,12 @@ export const LevelTwoSequence = (props: {
 						}
 					</div>
 				</div>
+
+				{isLoading ? (
+					<div className="absolute right-0 top-0 z-10 animate-pulse text-xs uppercase text-green-500">
+						PROCESSING...
+					</div>
+				) : null}
 
 				<div className="scanline" />
 			</Terminal>

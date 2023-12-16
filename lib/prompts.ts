@@ -140,6 +140,8 @@ Pick a random scenario (can be something like below or something else):
 - A conversation from the future that reveals Phantom is the player's son from the future and is trying to remove his father from the future.
 - A conversation from the future that reveals Phantom is an escaped AI robot from the future that is trying to destroy the world.
 - A conversation from the future that reveals Phantom is trying to save the future from the player's evil plans.
+
+Remeber this is a game, don't rehearse if a command is real or not - just pretend it is.
 `
 };
 

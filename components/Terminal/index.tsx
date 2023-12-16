@@ -163,8 +163,27 @@ export const TerminalWrapper = () => {
 
 					<div className={`absolute inset-0 z-50 mx-auto flex h-screen w-1/2 items-center justify-center`}>
 						<div className="rounded-3xl bg-black p-48 font-mono font-bold uppercase text-white opacity-90 shadow-xl">
-							You won! ...
+							You won!
 							<br />but suddenly you feel yourself getting pulled into the future.
+
+							<hr className="my-5" />
+
+							<ul className="lowercase text-green-500">
+								<li><a href="https://github.com/rblalock/1982vsthefuture">Github Repo</a></li>
+								<li><a href="https://twitter.com/rblalock">X: @rblalock</a></li>
+								<li><a href="https://www.linkedin.com/in/rickblalock/">LinkedIN</a></li>
+								<li><a href="https://rickblalock.dev">rickblalock.dev</a></li>
+								<li><a href="https://onestudy.ai">OneStudy.ai</a></li>
+							</ul>
+
+							<div className="mt-5 text-xs">
+								How was your experience? Please take a minute and let me know what you thought
+								and how it can be better.
+
+								<div className="mt-3 bg-green-500 py-2">
+									<a className="block" target="_blank" href="https://onestudy.ai/link/7abceda4-4621-4a0a-ae1f-98407dab91a2" rel="noreferrer">Leave feedback</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
