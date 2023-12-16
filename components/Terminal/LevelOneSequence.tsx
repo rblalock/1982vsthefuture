@@ -56,6 +56,7 @@ export const LevelOneSequence = (props: {
 						level: 1,
 						messages
 					});
+					handleInsertRound(true);
 				}, 5000);
 				return;
 			}
