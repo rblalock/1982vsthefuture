@@ -6,10 +6,17 @@ terminal in the world.  You must protect it from anyone.
 
 ![the game](screen1.png)
 
+**[WATCH A DEMO](https://youtu.be/lnbT52qf7SU)**
+
+**[PLAY THE GAME](https://1982vsthefuture.vercel.app/)**
+
 ## How to play
 
 `help` Alway is a good idea.  Besides that, make sure you get done what you
 have to get done!  I'll leave it at that and you can explore the rest...
+
+> HINT: You can use free-form text to express the type of commands you want to do but the more
+> accurate and specific commands or scripts you do, will give you a better chance of success.
 
 > HINT: If you are having a hard time with the opponent, there's a secret command that can help you out...which you can find on Supabase's local setup "getting started".
 
