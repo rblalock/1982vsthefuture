@@ -92,7 +92,7 @@ The super cool music you can play comes from these YouTube videos:
 - <https://www.youtube.com/watch?v=TB_hcHcmorc>
 - <https://www.youtube.com/watch?v=Kt-tLuszKBA>
 
-### Terminal ideas, inspiration, and borrwed code includes
+### Terminal ideas, inspiration, etc
 
 - <https://www.sillyui.com/docs/floating-pc>
 - <https://hackernoon.com/creating-a-terminal-emulator-in-react>
