@@ -403,7 +403,7 @@ export const LoggedInSequence = (props: {
 							Current character: ${characterSetting ||  'default'}
 
 							-------------------
-							OPENAI KEY (Must have access to gpt-4):
+							OPENAI KEY (Must have access to gpt-4-1106-preview):
 							settings openai [key]
 
 							${openAiKey ? 'You already set one.' : 'Key not set yet'}

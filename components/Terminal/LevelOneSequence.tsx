@@ -63,11 +63,36 @@ export const LevelOneSequence = (props: {
 	});
 
 	const handleInsertRound = async (win: boolean) => {
-		await insertRound({
-			log: messages.filter(m => m.role !== 'system').map(m => m.content).join('\n'),
+		const convo = messages.filter(m => m.role !== 'system').map(m => m.content).join('\n');
+		const record = await insertRound({
+			log: convo,
 			did_win: win,
 			character_type: characterSetting,
 		});
+		console.log(record)
+
+		// I DONT UNDERSTAND WHY ITS IN LS AND I HAVE TO DO THIS. Docs seem to do it differently but
+		// this is the only way I could make it work.
+		if (record.id) {
+			const token = JSON.parse(localStorage.getItem('sb-aqpsyixuuqiflmvbnykl-auth-token') || '{}');
+			const accessToken = token.access_token;
+			const refreshToken = token.refresh_token;
+
+			await fetch('/api/create-embeddings', {
+				method: 'POST',
+				body: JSON.stringify({
+					id: record.id,
+					messages: convo,
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+					'openaikey': openAiKey || '',
+					'accesstoken': accessToken,
+					'refreshtoken': refreshToken,
+				},
+				credentials: 'include'
+			});
+		}
 	};
 
 	const [terminalLineData, setTerminalLineData] = useState([

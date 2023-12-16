@@ -1,6 +1,6 @@
 import { TypeAnimation } from 'react-type-animation';
 import Terminal, { ColorMode, TerminalInput, TerminalOutput } from 'react-terminal-ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Message, useChat } from "ai/react"
 import { music } from './Toolbar';
 import { initialSpyPrompt, initialSystemPrompt, levelTwoSystemPrompt } from '@/lib/prompts';
@@ -61,11 +61,35 @@ export const LevelTwoSequence = (props: {
 	});
 
 	const handleInsertRound = async (win: boolean) => {
-		await insertRound({
-			log: messages.filter(m => m.role !== 'system').map(m => m.content).join('\n'),
+		const convo = messages.filter(m => m.role !== 'system').map(m => m.content).join('\n');
+		const record = await insertRound({
+			log: convo,
 			did_win: win,
 			character_type: characterSetting,
 		});
+
+		if (record?.id) {
+			// I DONT UNDERSTAND WHY ITS IN LS AND I HAVE TO DO THIS. Docs seem to do it differently
+			// using cookies but this is the only way I could make it work.
+			const token = JSON.parse(localStorage.getItem('sb-aqpsyixuuqiflmvbnykl-auth-token') || '{}');
+			const accessToken = token.access_token;
+			const refreshToken = token.refresh_token;
+
+			await fetch('/api/create-embeddings', {
+				method: 'POST',
+				body: JSON.stringify({
+					id: record.id,
+					messages: convo,
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+					'openaikey': openAiKey || '',
+					'accesstoken': accessToken,
+					'refreshtoken': refreshToken,
+				},
+				credentials: 'include'
+			});
+		}
 	};
 
 	const [terminalLineData, setTerminalLineData] = useState([

@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react';
 import { supabaseClient, useUser } from './useUser';
 
 export const useRound = () => {
@@ -18,11 +16,12 @@ export const useRound = () => {
 			.insert({
 				...payload,
 				profile_id: user?.id
-			});
+			}).select('*');
 
 		if (results.error) { console.error(results.error); }
 
-		return results;
+		console.log(results);
+		return results?.data?.[0];
 	};
 
 	return {

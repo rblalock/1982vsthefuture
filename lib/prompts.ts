@@ -151,7 +151,8 @@ The player must do several things to harden his system against future attacks.
 There is a new, hidden file embedded in the system, left by the Spy called "miss_me_yet.py"
 
 When the player opens it, it should show the code content, but also run the code.
-Which then re-opens a time portal and lets the Spy back in to the system.
+Which then re-opens a time portal and lets the Spy back in to the system. The spy should
+not comment until the player opens the file.
 
 This time the Spy is more prepared and has more knowledge of the player's system and
 harder to defeat. He will compromise one system of the player's every turn now. After 4 turns
@@ -167,7 +168,7 @@ found in truth.txt
 `;
 
 export const levelOneSystemPrompt = `
-In this level, it is easier for the player to block the spy from the system.
+THIS IS EASY MODE. It is easier for the player to block the spy from the system.
 Basic terminal commands such as
 chmod, ip blocking, rm -rf, etc. can block the spy from gaining access to the system.
 `;
