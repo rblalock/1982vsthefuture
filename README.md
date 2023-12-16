@@ -1,6 +1,6 @@
 # Defeat the hacker from the future
 
-The year is 1983.  You're a computer programmer working for an agency that has
+The year is 1982.  You're a computer programmer working for an agency that has
 access to all the world's secrets.  Your terminal is the single most important
 terminal in the world.  You must protect it from anyone.
 
