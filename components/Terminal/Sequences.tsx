@@ -259,6 +259,35 @@ export const LoggedInSequence = (props: {
 			return;
 		}
 
+		if (input === 'info') {
+			setTerminalLineData([
+				<TerminalOutput key={Math.random().toString(36).substring(7)}>
+					<div
+						className="terminal font-mono font-thin text-green-400"
+						style={{ fontSize: '1em', display: 'inline-block', whiteSpace: 'pre-line' }}
+					>
+						<ul className="lowercase text-green-500 underline">
+							<li><a href="https://github.com/rblalock/1982vsthefuture">Github Repo</a></li>
+							<li><a href="https://twitter.com/rblalock">X: @rblalock</a></li>
+							<li><a href="https://www.linkedin.com/in/rickblalock/">LinkedIN</a></li>
+							<li><a href="https://rickblalock.dev">rickblalock.dev</a></li>
+							<li><a href="https://onestudy.ai">OneStudy.ai</a></li>
+						</ul>
+
+						<div className="mt-5 text-xs">
+							How was your experience? Please take a minute and let me know what you thought
+							and how it can be better.
+
+							<div className="mt-3 bg-green-900 p-2">
+								<a className="block" target="_blank" href="https://onestudy.ai/link/7abceda4-4621-4a0a-ae1f-98407dab91a2" rel="noreferrer">Leave feedback</a>
+							</div>
+						</div>
+					</div>
+				</TerminalOutput>
+			]);
+			return;
+		}
+
 		if (input === 'help') {
 			setTerminalLineData([
 				<TerminalOutput key={Math.random().toString(36).substring(7)}>
@@ -273,6 +302,7 @@ export const LoggedInSequence = (props: {
 							clear
 							help
 							music
+							info
 							logout
 
 							And normal terminal commands like:
