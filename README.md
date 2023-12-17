@@ -121,11 +121,3 @@ The super cool music you can play comes from these YouTube videos:
 
 <https://codepen.io/rblalock/pen/qBgwpdz>
 
-### The pitch video inspiration
-
-<https://int10h.org/blog/2021/01/simulating-crt-monitors-ffmpeg-pt-1-color/>
-
-<https://ffmpeg.lav.io/>
-
-<https://chafalleiro.github.io/retromator/videomator.html>
-
