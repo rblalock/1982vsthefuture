@@ -8,6 +8,8 @@ terminal in the world.  You must protect it from anyone.
 
 **[WATCH A DEMO](https://youtu.be/lnbT52qf7SU)**
 
+**[IN-DEPTH EXPLANATION](https://youtu.be/s23zCSZBuw8)**
+
 **[PLAY THE GAME](https://1982vsthefuture.vercel.app/)**
 
 ## How to play
