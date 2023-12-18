@@ -34,6 +34,12 @@ export const LevelOneSequence = (props: {
 		headers: {
 			'openaikey': openAiKey || ''
 		},
+		onError(error) {
+			console.log(
+				error,
+				'NOTE: You need to set your OpenAI API key if you are experiencing a 401 error from OpenAI.  Reload this page, type "settings" to get instructions on how to do that.'
+			);
+		},
 		onFinish: (message) => {
 			setTurnsLeft(turnsLeft - 1);
 			const loseCondition = message.content.includes('LOSE CONDITION');

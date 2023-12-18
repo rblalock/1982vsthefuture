@@ -682,8 +682,9 @@ export const LoggedInSequence = (props: {
 						sequence={[
 							500,
 							`
-							Search the world database for how other hackers have defeated the
-							hacking invasion from the future.
+							Ask the central security world database for information about the hackers from the future,
+							what they're like, how they have been defeated in the past,
+							and what other users have done. (tip: This is a RAG, so just talk to it like you would ChatGPT)
 
 							search "[term|phrase|question]" (use quotes)
 							`
@@ -751,9 +752,9 @@ export const StartGameSequence = (props: {
 		<TerminalOutput key={Math.random().toString(36).substring(7)}>
 			<TypeAnimation
 				sequence={[
-					'Unable to perform this operation, something is wrong with the system',
+					'[You notice something is wrong with the system]',
 					1000,
-					`There is a problem. The system is not responding. Check the logs for more information.`,
+					`The system is not responding. Check the logs for more information.`,
 				]}
 				wrapper="div"
 				cursor={false}
